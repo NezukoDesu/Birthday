@@ -374,6 +374,12 @@
             document.getElementById('message').style.display = 'block';
             document.getElementById('title').innerText = "✨Happy Birthday, Cantikku✨";
 
+            // 🔥 GANTI LAGU DI SINI
+            const music = document.getElementById('bgMusic');
+            music.src = "assets/Lagu.mp3";  // ganti lagu
+            music.currentTime = 0;          // mulai dari awal
+            music.play();                   // play lagu baru
+
             // Scroll otomatis ke bawah supaya lilin baru kelihatan
             setTimeout(() => {
                 window.scrollTo({
