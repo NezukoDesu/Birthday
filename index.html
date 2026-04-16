@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayang! ❤️</title>
+    <style>
+        :root {
+            --pink-primary: #ff85a1;
+            --pink-dark: #ff477e;
+            --soft-bg: #ffe5ec;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--soft-bg);
+            display: flex;
+            justify-content: center;
+            color: #4a4a4a;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: var(--pink-dark);
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .img-pacar, .img-kita {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .img-kita { opacity: 0; }
+        .show-kita .img-kita { opacity: 1; }
+        .show-kita .img-pacar { opacity: 0; }
+
+        .tap-hint {
+            font-size: 0.8rem;
+            color: #a18a90;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .cake-wrapper {
+            margin: 60px 0; 
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cake {
+            width: 160px;
+            height: 90px;
+            background: #f4d03f;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            box-shadow: inset 0 -5px 0 #d4ac0d;
+        }
+
+        .cake::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 35px;
+            background: #edbb99;
+            top: 25px;
+            left: 0;
+        }
+
+        .candle {
+            width: 12px;
+            height: 55px;
+            background: var(--pink-dark);
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px;
+        }
+
+        /* LILIN DI BAWAH (TIGA LILIN ABADI) */
+        .eternal-section {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            border-top: 2px dashed var(--pink-secondary);
+        }
+
+        .eternal-candles {
+            display: flex;
+            gap: 15px; /* Jarak antar lilin */
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .candle-mini {
+            width: 10px;
+            height: 55px;
+            background: #ff477e;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .flame {
+            width: 18px;
+            height: 28px;
+            background: #ff9d00;
+            border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+            position: absolute;
+            top: -28px;
+            left: -4px;
+            animation: flicker 0.1s infinite alternate;
+            box-shadow: 0 0 15px #ff9d00;
+            margin-top: 10px;
+        }
+
+        .flame2 {
+            width: 18px;
+            height: 28px;
+            background: #ff9d00;
+            border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+            position: absolute;
+            top: -28px;
+            left: -4px;
+            animation: flicker 0.1s infinite alternate;
+            box-shadow: 0 0 15px #ff9d00;
+            margin-top: 20px;
+        }
+
+        /* Animasi flicker sedikit beda buat lilin 2 & 3 biar alami */
+        .eternal-candles .flame { animation-duration: 0.11s; }
+        .eternal-candles .candle-mini:nth-child(2) .flame { animation-duration: 0.09s; animation-delay: 0.05s; }
+        .eternal-candles .candle-mini:nth-child(3) .flame { animation-duration: 0.12s; animation-delay: 0.1s; }
+
+        #message {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            width: 95%;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .btn-tiup {
+            background-color: var(--pink-dark);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(255, 71, 126, 0.4);
+            z-index: 1;
+        }
+
+        .balloon {
+            position: fixed;
+            bottom: -100px;
+            width: 30px;
+            height: 40px;
+            background: var(--pink-primary);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.5;
+            animation: fly 6s linear infinite;
+            opacity: 0.4; /* 🔥 dari 0.5 jadi 0.1 */
+            z-index: -999; /* 🔥 paling belakang */
+        }
+
+        
+
+        @keyframes flicker {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) rotate(0deg); left: var(--l); }
+            100% { transform: translateY(-120vh) rotate(20deg); left: var(--l); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+
+        .balloons-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            left: var(--l);
+            width: 40px;
+            height: 60px;
+            background: red;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in;
+            opacity: 0.4; /* 🔥 dari 0.5 jadi 0.1 */
+            z-index: -999; /* 🔥 paling belakang */
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-120vh);
+            }
+        }
+
+        .confetti-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            opacity: 0.4; /* 🔥 jadi soft banget */
+            animation: fall linear infinite;
+            z-index: -999; /* 🔥 belakang */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(110vh) translateX(50px) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" src="assets/hbd.mp3" loop></audio>
+    <!-- <div class="balloon" style="--l: 10%; animation-delay: 0s;"></div>
+    <div class="balloon" style="--l: 30%; animation-delay: 2s; background: #fbb1bd;"></div>
+    <div class="balloon" style="--l: 70%; animation-delay: 4s; background: #ffd700;"></div>
+    <div class="balloon" style="--l: 90%; animation-delay: 1s;"></div>
+    <div class="balloon" style="--l: 20%; animation-delay: 0s;"></div>
+    <div class="balloon" style="--l: 40%; animation-delay: 3s; background: #fbb1bd;"></div>
+    <div class="balloon" style="--l: 60%; animation-delay: 2s; background: #ffd700;"></div>
+    <div class="balloon" style="--l: 80%; animation-delay: 3s;"></div> -->
+    <div class="balloons-container"></div>
+    <div class="confetti-container"></div>
+
+    <div class="container">
+        <h1 id="title">Happy Birthday, Sayang! 🎂</h1>
+
+        <div class="photo-frame" onclick="gantiFoto(this)">
+            <img src="assets/Habel.jpeg" alt="Foto Pacar" class="img-pacar">
+            <img src="assets/Fotbar.jpeg" alt="Foto Kita" class="img-kita">
+        </div>
+        <p class="tap-hint" id="hintText">✨Tap fotonya ya Cantikk</p>
+        
+        <p class="tap-hint" id="hintText">Berdoa Dulu Sebelum Tiup Lilin Ya Cantikkuu✨</p><br>
+        <div class="cake-wrapper">
+            <div class="candle">
+                <div class="flame" id="flame-cake"></div>
+            </div>
+            <div class="cake"></div>
+        </div>
+        
+        <button class="btn-tiup" id="btnTiup" onclick="tiupLilin()">Tiup Lilinnya! 🕯️</button>
+
+        <div id="message">
+            <h3>HAPPY BIRTHDAY CANTIKKU! ❤️</h3>
+            <p>Halo Cantikku, Masuk Kepala dua nihhh, Aku cuma Mau Seng tau kalo seng itu hadiah ter best untuk ulang tahun ku, Jadi aku juga mau buat aku itu hadiah terbest buat seng. selamat ulang tahun ya sengg. <br>ku sayanggg banget ke seng, ku tak mau kehilangan seng, minta maaf ya kalo selama ini aku bandel ga dengerin apa kata seng, tapi ku tetap cayanggggg banget ke seng <br><strong>Selamat Ulang Tahun Sayang Kuuu</strong></p><br>
+            <p>Semoga apapun yang seng harapkan dapat terwujud di tahun ini, Tetap kejar cita cita, jadi cewe yang soleha, sayang ke orang tua, dan juga sayang kepada pacarnya yang satu ini wkwk :v selamat ulang tahun ya istri aku i love you so much ❤️❤️</p>
+            <p><strong>Coba scroll sedikit lagi...</strong></p>
+            
+            <div class="eternal-section">
+                <div class="eternal-candles">
+                    <div class="candle-mini"><div class="flame2"></div></div>
+                    <div class="candle-mini"><div class="flame2"></div></div>
+                    <div class="candle-mini"><div class="flame2"></div></div>
+                </div>
+                <p style="font-size: 0.9rem; margin-top: 10px; font-weight: bold; background: #fff0f3; padding: 10px; border-radius: 10px;">
+                    Lilin di kue tadi uda mati kan seng tiup, nah 3 lilin di bawah ini ga bakal mati 
+                    <br>
+                    <strong>Aku bakal cinta sama seng sampai ketiga lilin ini mati. ❤️</strong>
+                </p>
+            </div>
+            
+            <p style="margin-top: 25px;"><strong>I LOVE YOU FOREVER! 💖</strong></p>
+        </div>
+    </div>
+
+    <script>
+        function gantiFoto(element) {
+            element.classList.toggle('show-kita');
+            const hint = document.getElementById('hintText');
+            if(element.classList.contains('show-kita')) {
+                hint.innerText = "Halo Cantik Aku, Selamat Ulang Tahun ❤️❤️";
+            } else {
+                hint.innerText = "Tap fotonya ya Cantikk✨";
+            }
+        }
+
+        function tiupLilin() {
+            // Matikan hanya lilin di kue
+            document.getElementById('flame-cake').classList.add('hidden');
+            document.getElementById('btnTiup').classList.add('hidden');
+            
+            // Tampilkan pesan
+            document.getElementById('message').style.display = 'block';
+            document.getElementById('title').innerText = "✨Happy Birthday, Cantikku✨";
+
+            // Scroll otomatis ke bawah supaya lilin baru kelihatan
+            setTimeout(() => {
+                window.scrollTo({
+                    top: document.body.scrollTop,
+                    behavior: 'smooth'
+                });
+            }, 0);
+        }
+        
+        // BALLOON
+        const balloonContainer = document.querySelector('.balloons-container');
+
+        for (let i = 0; i < 30; i++) {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+
+            const left = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const colors = ['#ff6b6b', '#fbb1bd', '#ffd700', '#6bc5ff', '#a0ff6b'];
+
+            balloon.style.setProperty('--l', left + '%');
+            balloon.style.animationDelay = delay + 's';
+            balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            balloonContainer.appendChild(balloon);
+        }
+
+
+        // CONFETTI
+        const confettiContainer = document.querySelector('.confetti-container');
+
+        for (let i = 0; i < 80; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+
+            const left = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = 3 + Math.random() * 5;
+
+            const colors = ['#ff6b6b', '#ffd700', '#6bc5ff', '#a0ff6b', '#ff9ff3'];
+
+            confetti.style.left = left + '%';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = delay + 's';
+            confetti.style.animationDuration = duration + 's';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+
+            confettiContainer.appendChild(confetti);
+        }
+
+        document.body.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            music.volume = 0.4;
+            music.play();
+        }, { once: true });
+    </script>
+</body>
+</html>
